@@ -36,4 +36,4 @@ java TecMaster
 ## Note
 
 JavaFXが必要となるためLibericaJDK等の使用をお勧めします<br>
-シリアル通信にはpython3およびpyserialのインストールが必要となります
+機械語の書き込み、及びシリアル通信にはpython3およびpyserialのインストールが必要となります
