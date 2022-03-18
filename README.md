@@ -1,13 +1,18 @@
 # TecMaster
 
-# Requirement
+## OverView
+
+Tec用に開発されたIDEです
+コーディングから、アセンブル、機械語の書き込み、シリアル通信までをGUIを用いて簡単に行うことができます
+
+## Requirement
 
 * java 8
 * javafx 8
 * python 3.6
 * pyserial 3.0
 
-# Installation
+## Installation
 
 *macOS*
 ```
@@ -19,7 +24,7 @@ pip3 install pyserial
 pip install pyserial
 ```
 
-# Usage
+## Usage
 
 ```
 git clone -b master https://github.com/S-Y-GitHub/TecMaster
@@ -28,7 +33,7 @@ javac TecMaster.java
 java TecMaster
 ```
 
-# Note
+## Note
 
 JavaFXが必要となるためLibericaJDK等の使用をお勧めします<br>
 シリアル通信にはpython3およびpyserialのインストールが必要となります
