@@ -23,6 +23,7 @@ pip install pyserial
 
 ```
 git clone -b master https://github.com/S-Y-GitHub/TecMaster
+cd TecMaster
 javac TecMaster.java
 java TecMaster
 ```
