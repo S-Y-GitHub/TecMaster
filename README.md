@@ -9,17 +9,17 @@
 
 # Installation
 
-*macOS
+*macOS*
 ```
 pip3 install pyserial
 ```
 
-*Windows
+*Windows*
 ```
 pip install pyserial
 ```
 
-#Usage
+# Usage
 
 ```
 git clone https://github.com/S-Y-GitHub/TecMaster
