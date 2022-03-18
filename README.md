@@ -22,12 +22,12 @@ pip install pyserial
 # Usage
 
 ```
-git clone https://github.com/S-Y-GitHub/TecMaster/tree/master
+git clone -b master https://github.com/S-Y-GitHub/TecMaster
 javac TecMaster.java
 java TecMaster
 ```
 
 # Note
 
-javaFXが必要となるためlibericaJDK等の使用をお勧めします<br>
+JavaFXが必要となるためLibericaJDK等の使用をお勧めします<br>
 シリアル通信にはpython3およびpyserialのインストールが必要となります
