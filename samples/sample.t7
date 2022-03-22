@@ -1,0 +1,45 @@
+        
+INT2V   EQU     0DEH        
+SIOD    EQU     02H         
+SIOC    EQU     03H         
+        ;メインプログラム
+START   LD      SP,#0DCH    ;SP初期化
+        LD      G0,#SIOXINT ;割込みルー
+        ST      G0,INT2V    ;チンを登録
+        LD      G0,#80H     ;SIO送信割
+        OUT     G0,SIOC     ;込み許可ON
+        LD      G0,#DATA    ;データの位
+        ST      G0,POINTER  ;置をセット
+        LD      G0,#1       ;出力中Flag
+        ST      G0,FLAG     ;セット
+        EI      ;割込み許可
+LOOP    LD      G0,FLAG     ;出力中フラ
+        CMP     G0,#0       ;グがクリア
+        JZ      END         ;で終了
+        JMP     LOOP        ;割込み待ち
+END     HALT    
+        
+DATA    DC      "SHIGEMURA" 
+        DC      0           
+        ;SIO送信割込み処理ルーチン
+SIOXINT PUSHF   
+        PUSH    G0          
+        PUSH    G1          
+        LD      G1,POINTER  ;一文字
+        LD      G0,0,G1     ;取り出す
+        CMP     G0,#0       ;文字列の
+        JZ      OWARI       ;終わりか？
+        OUT     G0,SIOD     ;送信する
+        ADD     G1,#1       ;次の文字
+        ST      G1,POINTER  ;に進める
+        JMP     KAERI       
+OWARI   LD      G0,#00H     ;SIO送信割
+        OUT     G0,SIOC     ;込み許可OFF
+        ST      G0,FLAG     ;Flagクリア
+KAERI   POP     G1          
+        POP     G0          
+        POPF    
+        RETI    
+        ;割込み処理ルーチンのデータ
+POINTER DS      1           ;文字列位置
+FLAG    DS      1           ;動作中FLAG

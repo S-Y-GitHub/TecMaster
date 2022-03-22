@@ -1,0 +1,16 @@
+
+*{
+    -fx-text-fill:white;
+}
+
+.tree-cell,.label,.tab,.tab-header-area,.tab-header-background,.bp-explorer-bar,.vb-buttons,.bp-explorer{
+    -fx-background-color:#202020;
+}
+
+.tree-cell:selected,.tab:selected,.tab-pane,.button{
+    -fx-background-color:#404040;
+}
+
+.text-area .content{
+    -fx-background-color:black;
+}

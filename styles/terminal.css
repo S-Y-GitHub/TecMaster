@@ -1,0 +1,6 @@
+*{
+    -fx-control-inner-background:black;
+    -fx-text-fill:#00ff00;
+    -fx-highlight-fill:#00ff00;
+    -fx-highlight-text-fill:black;
+}

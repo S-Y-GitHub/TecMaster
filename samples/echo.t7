@@ -1,0 +1,11 @@
+SIOD    EQU     02H         
+SIOS    EQU     03H         
+START   IN      G1,SIOS     
+        AND     G1,#40H     
+        JZ      START       
+        IN      g0,siod     
+wait    in      g1,sios     
+        and     g1,#80h     
+        jz      wait        
+        out     g0,siod     
+        jmp     start       

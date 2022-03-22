@@ -1,0 +1,6 @@
+;       入力例     
+        ld      g0,a        
+        st      g0,b        
+        halt    
+a       dc      10          
+b       ds      1            

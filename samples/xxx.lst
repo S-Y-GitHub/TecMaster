@@ -1,0 +1,9 @@
+
+ADR CODE    Label   Instruction
+
+00          ;       入力例     
+00  10 05           LD      G0,A        
+02  20 06           ST      G0,B        
+04  FF              HALT                
+05  0A      A       DC      10          
+05  00      B       DS      1           

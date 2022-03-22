@@ -1,0 +1,52 @@
+
+ADR CODE    Label   Instruction
+
+00                  
+DE          INT2V   EQU     0DEH        
+02          SIOD    EQU     02H         
+03          SIOC    EQU     03H         
+00                  ;メインプログラム
+00  1F DC   START   LD      SP,#0DCH    ;SP初期化
+02  13 26           LD      G0,#SIOXINT ;割込みルー
+04  20 DE           ST      G0,INT2V    ;チンを登録
+06  13 80           LD      G0,#80H     ;SIO送信割
+08  C3 03           OUT     G0,SIOC     ;込み許可ON
+0A  13 1C           LD      G0,#DATA    ;データの位
+0C  20 43           ST      G0,POINTER  ;置をセット
+0E  13 01           LD      G0,#1       ;出力中Flag
+10  20 44           ST      G0,FLAG     ;セット
+12  E0              EI                  ;割込み許可
+13  10 44   LOOP    LD      G0,FLAG     ;出力中フラ
+15  53 00           CMP     G0,#0       ;グがクリア
+17  A4 1B           JZ      END         ;で終了
+19  A0 13           JMP     LOOP        ;割込み待ち
+1B  FF      END     HALT                
+1C                  
+1C  53 48   DATA    DC      "SHIGEMURA" 
+1E  49 47                               
+20  45 4D                               
+22  55 52                               
+24  41                                  
+1C  00              DC      0           
+1C                  ;SIO送信割込み処理ルーチン
+1C  DD      SIOXINT PUSHF               
+1D  D0              PUSH    G0          
+1E  D4              PUSH    G1          
+1F  14 43           LD      G1,POINTER  ;一文字
+21  11 00           LD      G0,0,G1     ;取り出す
+23  53 00           CMP     G0,#0       ;文字列の
+25  A4 39           JZ      OWARI       ;終わりか？
+27  C3 02           OUT     G0,SIOD     ;送信する
+29  37 01           ADD     G1,#1       ;次の文字
+2B  24 43           ST      G1,POINTER  ;に進める
+2D  A0 3F           JMP     KAERI       
+2F  13 00   OWARI   LD      G0,#00H     ;SIO送信割
+31  C3 03           OUT     G0,SIOC     ;込み許可OFF
+33  20 44           ST      G0,FLAG     ;Flagクリア
+35  D6      KAERI   POP     G1          
+36  D2              POP     G0          
+37  DF              POPF                
+38  EF              RETI                
+39                  ;割込み処理ルーチンのデータ
+39  00      POINTER DS      1           ;文字列位置
+3A  00      FLAG    DS      1           ;動作中FLAG
