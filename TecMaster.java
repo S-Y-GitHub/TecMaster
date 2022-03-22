@@ -205,7 +205,7 @@ public class TecMaster extends Application{
 
         Scene scene=new Scene(borderPane,800,450);
         stage.setScene(scene);
-        stage.setTitle("tec master (bata)");
+        stage.setTitle("tec master");
         stage.show();
 
         final String DARK=this.getClass().getResource("./styles/dark.css").toExternalForm();
