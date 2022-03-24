@@ -37,3 +37,8 @@ java TecMaster
 
 JavaFXが必要となるためLibericaJDK等の使用をお勧めします<br>
 機械語の書き込み、及びシリアル通信にはpython3およびpyserialのインストールが必要となります
+
+## Author
+
+* S.Y.
+* s.y.83468946@gmail.com
