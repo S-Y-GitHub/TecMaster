@@ -25,6 +25,9 @@ public enum MultilingualText{
     FAILED_TO_START_THE_WRITE_PROCESS,
     FAILED_TO_WRITE,
     FAILED_TO_WRITE_TO_FILE_,
+    IMIDIATE_MODE_IS_NOT_AVAILABLE_FOR_COMMAND_,
+    OTHER_SYNTAX_ERROR_,
+    PARENTHESES_NOT_CLOSED_,
     PLEASE_ENTER_THE_FILE_NAME,
     PLEASE_ENTER_THE_FOLDER_NAME,
     RESULTS_WARE_STORED_IN__AND_,
@@ -33,7 +36,12 @@ public enum MultilingualText{
     THE_TEC_IS_NOT_CONNECTED,
     THE_FILE_WAS_NOT_FOUND,
     THIS_FILE_NAME_ALREADY_EXISTS,
-    THIS_FOLDER_NAME_ALREADY_EXISTS
+    THIS_FOLDER_NAME_ALREADY_EXISTS,
+    UNAUTHORIZED_OR_UNKNOWN_INDEX_REGISTER_,
+    UNKNOWN_COMMAND_,
+    UNKNOWN_LABEL_,
+    UNKNOWN_OPERAND_,
+    UNKNOWN_REGISTER
     ;
     public String getTxt(Language language){
         switch(language){
@@ -111,6 +119,15 @@ public enum MultilingualText{
                     case FAILED_TO_WRITE_TO_FILE_:{
                         return "ファイル:%s への書き込みに失敗しました";
                     }
+                    case IMIDIATE_MODE_IS_NOT_AVAILABLE_FOR_COMMAND_:{
+                        return "命令:%s ではイミディエイトモードを使用できません";
+                    }
+                    case OTHER_SYNTAX_ERROR_:{
+                        return "その他の文法エラー: %s";
+                    }
+                    case PARENTHESES_NOT_CLOSED_:{
+                        return "括弧が閉じられていません: %s";
+                    }
                     case PLEASE_ENTER_THE_FILE_NAME:{
                         return "ファイル名を入力してください";
                     }
@@ -138,6 +155,23 @@ public enum MultilingualText{
                     case THIS_FOLDER_NAME_ALREADY_EXISTS:{
                         return "このフォルダ名は既に存在しています";
                     }
+                    case UNAUTHORIZED_OR_UNKNOWN_INDEX_REGISTER_:{
+                        return "許可されていない、または不明なインデクスレジスタ: %s";
+                    }
+                    case UNKNOWN_COMMAND_:{
+                        return "不明な命令: %s";
+                    }
+                    case UNKNOWN_LABEL_:{
+                        return "不明なラベル: %s";
+                    }
+                    case UNKNOWN_OPERAND_:{
+                        return "不明なオペランド: %s";
+                    }
+                    case UNKNOWN_REGISTER:{
+                        return "不明なレジスタ: %s";
+                    }
+                    default:
+                        break;
                 }
             }
             case ENGLISH:{
@@ -214,6 +248,15 @@ public enum MultilingualText{
                     case FAILED_TO_WRITE_TO_FILE_:{
                         return "failed to write to file:%s";
                     }
+                    case IMIDIATE_MODE_IS_NOT_AVAILABLE_FOR_COMMAND_:{
+                        return "imidiate mode is not available for command: %s";
+                    }
+                    case OTHER_SYNTAX_ERROR_:{
+                        return "othre syntax error: %s";
+                    }
+                    case PARENTHESES_NOT_CLOSED_:{
+                        return "parentheses not closed: %s";
+                    }
                     case PLEASE_ENTER_THE_FILE_NAME:{
                         return "please enter the file name";
                     }
@@ -240,6 +283,21 @@ public enum MultilingualText{
                     }
                     case THIS_FOLDER_NAME_ALREADY_EXISTS:{
                         return "this folder name is already exists";
+                    }
+                    case UNAUTHORIZED_OR_UNKNOWN_INDEX_REGISTER_:{
+                        return "unauthorized or unknown index register: %s";
+                    }
+                    case UNKNOWN_COMMAND_:{
+                        return "unknown command:%s";
+                    }
+                    case UNKNOWN_LABEL_:{
+                        return "unknown label: %s";
+                    }
+                    case UNKNOWN_OPERAND_:{
+                        return "unknown operand: %s";
+                    }
+                    case UNKNOWN_REGISTER:{
+                        return "unknown register: %s";
                     }
                 }
             }

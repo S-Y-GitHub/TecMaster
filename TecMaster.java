@@ -1024,7 +1024,7 @@ public class TecMaster extends Application{
             errorAlert(String.format(MultilingualText.FAILED_TO_READ_FROM_FILE_.getTxt(language),filePath));
             return;
         }catch(Assembler.AssembleException e){
-            errorAlert(String.format(MultilingualText.FAILED_TO_ASSEMBLE__.getTxt(language),e.line,e.lineStr,e.message));
+            errorAlert(String.format(MultilingualText.FAILED_TO_ASSEMBLE__.getTxt(language),e.line,e.lineStr,String.format(e.message.getTxt(language),e.messageStr)));
             return;
         }
         byte[] binaryData=(byte[])assembled[0];
