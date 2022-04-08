@@ -1024,7 +1024,7 @@ public class TecMaster extends Application{
             errorAlert(String.format(MultilingualText.FAILED_TO_READ_FROM_FILE_.getTxt(language),filePath));
             return;
         }catch(Assembler.AssembleException e){
-            errorAlert(String.format(MultilingualText.FAILED_TO_ASSEMBLE__.getTxt(language),e.line,e.lineStr,String.format(e.message.getTxt(language),e.messageStr)));
+            errorAlert(String.format(MultilingualText.FAILED_TO_ASSEMBLE__.getTxt(language),e.line,e.lineStr,e.message));
             return;
         }
         byte[] binaryData=(byte[])assembled[0];
@@ -1088,7 +1088,7 @@ public class TecMaster extends Application{
         String[] lines=textArea.getText().split("\n");
         String newText="";
         for(int i=0;i<lines.length;i++){
-            String[] split=lines[i].split("[\s]+");
+            String[] split=lines[i].split("[\t]+");
             for(int j=0;j<split.length;j++){
                 if(split[j].startsWith(";")){
                     while(j<split.length){

@@ -3,8 +3,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import enums.MultilingualText;
-
 public class Assembler{
     public static Object[] assenmble(String data)throws AssembleException{
         String[] rawLines=data.split("\n");
@@ -16,7 +14,8 @@ public class Assembler{
                 fixed+=String.valueOf(line.charAt(j)).toUpperCase();
                 char c=line.charAt(j);
                 if(c=='\''){
-                    fixed+=line.charAt(++j)+'\'';
+                    fixed+=line.charAt(++j)+"\'";
+                    j++;
                 }else if(c=='\"'){
                     do{
                         fixed+=line.charAt(++j);
@@ -34,8 +33,7 @@ public class Assembler{
         try{
             labels=getLabels(lines);
         }catch(AssembleException e){
-            e.lineStr=rawLines[e.line];
-            throw e;
+            throw new AssembleException(e.line,rawLines[e.line],e.message);
         }
         
         System.out.println("----------labels----------");
@@ -47,8 +45,7 @@ public class Assembler{
         try{
             assembled=assemble(lines,labels);
         }catch(AssembleException e){
-            e.lineStr=rawLines[e.line];
-            throw e;
+            throw new AssembleException(e.line,rawLines[e.line],e.message);
         }
         byte[] binary=(byte[])assembled[0];
         String list=(String)assembled[1];
@@ -73,7 +70,7 @@ public class Assembler{
                     if(index!=-1){
                         line=line.substring(0,index);
                     }
-                    String[] split=line.split("[\s]+");
+                    String[] split=line.split("[\t]+");
                     String label=split[0];
                     String command=split[1];
                     String operand=split.length==3?split[2]:null;
@@ -98,11 +95,8 @@ public class Assembler{
                         add++;
                     }
                 }
-            }catch(AssembleException e){
-                e.line=i;
-                throw e;
             }catch(Exception e){
-                throw new AssembleException(i,MultilingualText.OTHER_SYNTAX_ERROR_,"");
+                throw new AssembleException(i,e.getMessage());
             }
         }
         return labels;
@@ -130,7 +124,7 @@ public class Assembler{
                         comment=line.substring(index);
                         line=line.substring(0,index);
                     }
-                    String[] split=line.split("[\s]+");
+                    String[] split=line.split("[\t]+");
                     String label=split[0];
                     String command=split[1];
                     String operand=split.length==3?split[2]:"";
@@ -183,11 +177,8 @@ public class Assembler{
                 }else{
                     listGen.nextLine(add,data[i]);
                 }
-            }catch(AssembleException e){
-                e.line=i;
-                throw e;
             }catch(Exception e){
-                throw new AssembleException(i,MultilingualText.OTHER_SYNTAX_ERROR_,e.getMessage());
+                throw new AssembleException(i,e.getMessage());
             }
         }
 
@@ -381,7 +372,7 @@ public class Assembler{
             case "HALT":return (byte)0xff;
 
             default:{
-                throw new AssembleException(MultilingualText.UNKNOWN_COMMAND_,command);
+                throw new Exception("不明な命令 : "+command);
             }
         }
 
@@ -392,7 +383,7 @@ public class Assembler{
                 case "G1":return (byte)(b+0b0100);
                 case "G2":return (byte)(b+0b1000);
                 case "SP":return (byte)(b+0b1100);
-                default:throw new AssembleException(MultilingualText.UNKNOWN_OPERAND_,operand);
+                default:throw new Exception("不明なオペランド : "+operand);
             }
         }
         if(isCommand4(command)||isCommand5(command)){
@@ -417,12 +408,12 @@ public class Assembler{
                     break;
                 }
                 default:{
-                    throw new AssembleException(MultilingualText.UNKNOWN_REGISTER,register);
+                    throw new Exception("不明なレジスタ : "+register);
                 }
             }
             if(split.length==3){
                 if(isCommand5(command)){
-                    throw new AssembleException(MultilingualText.IMIDIATE_MODE_IS_NOT_AVAILABLE_FOR_COMMAND_,command);
+                    throw new Exception(command+"命令ではイミディエイトモードを使用できません");
                 }
                 String indexRegister=split[2];
                 if(indexRegister.equals("G1")){
@@ -430,7 +421,7 @@ public class Assembler{
                 }else if(indexRegister.equals("G2")){
                     b+=0x02;
                 }else{
-                    throw new AssembleException(MultilingualText.UNAUTHORIZED_OR_UNKNOWN_INDEX_REGISTER_,indexRegister);
+                    throw new Exception("許可されていない、または不明なインデクスレジスタ : "+indexRegister);
                 }
             }else if(formula.startsWith("#")){
                 b+=0x03;
@@ -446,12 +437,12 @@ public class Assembler{
                 }else if(indexRegister.equals("G2")){
                     b+=0x02;
                 }else{
-                    throw new AssembleException(MultilingualText.UNAUTHORIZED_OR_UNKNOWN_INDEX_REGISTER_,indexRegister);
+                    throw new Exception("許可されていない、または不明なインデクスレジスタ : "+indexRegister);
                 }
             }
             return b;
         }
-        return -1;
+        throw new Exception("this is bug");
     }
     private static byte secondByte(String command,String operand,Map<String,Byte> labels)throws Exception{
         String[] split=operand.split(",");
@@ -470,7 +461,7 @@ public class Assembler{
         }else if(split.length==3){
             formula=split[1];
         }else{
-            throw new AssembleException(MultilingualText.UNKNOWN_OPERAND_,operand);
+            throw new Exception("不明なオペランド : "+operand);
         }
         return readFormula(formula,labels);
     }
@@ -583,7 +574,7 @@ public class Assembler{
         if(index!=-1){
             int postIndex=formula.indexOf(")");
             if(formula.indexOf(")")==-1){
-                throw new AssembleException(MultilingualText.PARENTHESES_NOT_CLOSED_,formula);
+                throw new Exception("閉じられていない括弧 : "+formula);
             }
             String pre=formula.substring(0,index);
             String parent=formula.substring(index+1,postIndex);
@@ -640,7 +631,7 @@ public class Assembler{
         }else{
             Byte label=labels.get(factor);
             if(label==null){
-                throw new AssembleException(MultilingualText.UNKNOWN_LABEL_,factor);
+                throw new Exception("不明なラベル : "+factor);
             }
             return labels.get(factor);
         }
@@ -654,15 +645,15 @@ public class Assembler{
     public static class AssembleException extends Exception{
         int line;
         String lineStr;
-        MultilingualText message;
-        String messageStr;
-        AssembleException(MultilingualText message,String messageStr){
-            this.message=message;
-            this.messageStr=messageStr;
-        }
-        AssembleException(int line,MultilingualText message,String messageStr){
-            this(message,messageStr);
+        String message;
+        public AssembleException(int line,String message){
             this.line=line;
+            this.message=message;
+        }
+        public AssembleException(int line,String lineStr,String message){
+            System.err.println((this.line=line)+"行目");
+            System.err.println(this.lineStr=lineStr);
+            System.err.println(this.message=message);
         }
     }
 }
