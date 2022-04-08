@@ -406,7 +406,7 @@ public class TecMaster extends Application{
                 if(e.getCode()==KeyCode.ENTER){
                     String txt=textField.getText()+"\n";
                     shellWrite+=txt;
-                    textArea.setText(textArea.getText()+txt);
+                    textArea.appendText(txt);
                     textField.setText("");
                 }
             }
@@ -484,7 +484,7 @@ public class TecMaster extends Application{
                 }
 
                 if(!shellRead.isEmpty()){
-                    textArea.setText(textArea.getText()+shellRead);
+                    textArea.appendText(shellRead);
                     shellRead="";
                 }
             }
